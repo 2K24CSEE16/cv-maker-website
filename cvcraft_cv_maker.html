@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CVCraft — Free CV Maker</title>
+<style>
+:root{--ink:#4d67be;--muted:#667085;--line:#e3e8ef;--brand:#be3127;--brand2:#8b5cf6;--bg:#f4f6fb;--card:#fff;--soft:#f1efff}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
+header{background:linear-gradient(120deg,#171c3b,#4338a8 65%,#7655e8);color:white;padding:24px max(20px,calc((100% - 1220px)/2));display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap}
+.logo{font-weight:850;font-size:25px;letter-spacing:-.7px}.logo span{color:#c8c0ff}.tagline{font-size:13px;color:#e1ddff;margin-top:4px}.top-actions{display:flex;gap:10px;flex-wrap:wrap}
+button,.button{border:0;border-radius:10px;padding:11px 15px;font-weight:750;cursor:pointer;font-size:13px;transition:.15s}
+button:hover{transform:translateY(-1px)}.primary{background:var(--brand);color:rgb(255, 255, 255)}.whitebtn{background:white;color:#29235e}.ghost{background:#efedff;color:#4535bd}.outline{background:transparent;border:1px solid #d8d5ff;color:#fff}
+main{max-width:1220px;margin:25px auto;padding:0 18px 40px}.intro{display:flex;justify-content:space-between;align-items:end;gap:15px;margin-bottom:20px;flex-wrap:wrap}.intro h1{font-size:clamp(25px,3vw,36px);margin:0 0 6px;letter-spacing:-1px}.intro p{margin:0;color:var(--muted);font-size:14px}
+.layout{display:grid;grid-template-columns:minmax(320px, .92fr) minmax(350px,1.08fr);gap:20px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:17px;box-shadow:0 8px 30px #1c24500a;overflow:hidden}
+.panel-head{padding:17px 20px;border-bottom:1px solid var(--line);display:flex;align-items:center;justify-content:space-between;gap:12px}.panel-head h2{font-size:16px;margin:0}.step{font-size:11px;font-weight:800;color:var(--brand);background:var(--soft);padding:6px 9px;border-radius:20px}
+.form-body{padding:18px 20px 22px}.section-title{font-size:12px;text-transform:uppercase;letter-spacing:1px;font-weight:850;color:#5b4bdb;margin:21px 0 12px}.section-title:first-child{margin-top:0}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.field{display:flex;flex-direction:column;gap:6px;min-width:0}.field.full{grid-column:1/-1}label{font-size:12px;font-weight:750;color:#414a5e}input,textarea,select{font:inherit;font-size:13px;color:var(--ink);background:#fff;border:1px solid #dce2ec;border-radius:9px;padding:10px 11px;width:100%;outline:none}input:focus,textarea:focus,select:focus{border-color:#8175ed;box-shadow:0 0 0 3px #8175ed1c}textarea{resize:vertical;min-height:76px;line-height:1.5}.hint{font-size:11px;color:var(--muted);line-height:1.5}.divider{height:1px;background:var(--line);margin:20px 0}.form-actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}.form-actions button{flex:1}
+.preview-wrap{position:sticky;top:14px}.preview-toolbar{display:flex;align-items:center;justify-content:space-between;gap:8px;flex-wrap:wrap;padding:12px 14px;border-bottom:1px solid var(--line)}.preview-toolbar span{font-size:12px;font-weight:800}.preview-actions{display:flex;gap:7px}.preview-actions button{padding:8px 10px;font-size:12px}
+.resume{background:#fff;color:#20283a;min-height:760px;padding:35px 35px 40px;box-shadow:0 3px 14px #18234a12;overflow-wrap:anywhere}.resume-top{border-bottom:3px solid #5b4bdb;padding-bottom:18px;margin-bottom:22px}.resume h1{font-size:30px;letter-spacing:-.8px;margin:0 0 6px;color:#22204d}.resume .role{font-size:14px;color:#5b4bdb;font-weight:750;margin-bottom:12px}.contact{font-size:11px;color:#60697a;line-height:1.9;display:flex;flex-wrap:wrap;gap:3px 13px}.resume-section{margin:20px 0}.resume-section h3{font-size:11px;text-transform:uppercase;letter-spacing:1.5px;color:#5142c2;border-bottom:1px solid #e4e0ff;padding-bottom:7px;margin:0 0 10px}.resume-section p{font-size:12px;line-height:1.65;color:#414a5a;margin:0;white-space:pre-line}.resume-item{margin:0 0 13px}.resume-item-head{display:flex;justify-content:space-between;gap:10px;align-items:baseline}.resume-item strong{font-size:12px}.resume-item .date{font-size:10px;color:#6e7482;white-space:nowrap}.resume-item .sub{font-size:11px;color:#5b4bdb;margin:3px 0 5px}.resume-item p{font-size:11px;line-height:1.6;white-space:pre-line}.skills{display:flex;flex-wrap:wrap;gap:6px}.skill{font-size:10px;border-radius:5px;padding:5px 8px;background:#f0efff;color:#4939b7;font-weight:700}.empty{color:#9097a5;font-style:italic}
+footer{text-align:center;color:#82899a;font-size:11px;padding:0 15px 24px}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.preview-wrap{position:static}.resume{min-height:unset}.resume{padding:26px}}
+@media(max-width:480px){main{padding:0 10px 25px}.grid{grid-template-columns:1fr}.field.full{grid-column:auto}.form-body{padding:16px}.resume{padding:20px}.resume h1{font-size:25px}.resume-item-head{display:block}.resume-item .date{display:block;margin-top:3px}}
+@media print{body{background:rgb(245, 245, 245)}header,main>.intro,.form-panel,.preview-toolbar,footer{display:none!important}main{margin:0;padding:0;max-width:none}.layout{display:block}.preview-wrap{position:static}.panel{border:0;box-shadow:none}.panel-head{display:none}.resume{padding:12mm;min-height:0;box-shadow:none}.resume h1{font-size:25pt}.resume-section{break-inside:avoid}.resume-item{break-inside:avoid}@page{size:A4;margin:0}}
+</style>
+</head>
+<body>
+<header>
+  <div><div class="logo">CV<span>Craft</span> ✦</div><div class="tagline">Build a CV that opens doors.</div></div>
+  <div class="top-actions"><button class="outline" id="sampleBtn">Load sample CV</button><button class="whitebtn" id="topDownload">⬇ Download CV / PDF</button></div>
+</header>
+<main>
+  <div class="intro"><div><h1>Create your professional CV</h1><p>Fill in your details and see your CV update instantly. Free, simple and ready to print.</p></div><span class="hint">✓ Live preview &nbsp; ✓ A4 layout &nbsp; ✓ PDF via Print</span></div>
+  <div class="layout">
+    <section class="panel form-panel">
+      <div class="panel-head"><h2>📝 Your information</h2><span class="step">STEP 1 OF 2</span></div>
+      <div class="form-body">
+        <div class="section-title">Personal details</div>
+        <div class="grid">
+          <div class="field full"><label for="name">Full name *</label><input id="name" placeholder="e.g. Ayesha Khan" value=""></div>
+          <div class="field full"><label for="jobTitle">Professional title</label><input id="jobTitle" placeholder="e.g. Graphic Designer"></div>
+          <div class="field"><label for="email">Email</label><input id="email" type="email" placeholder="you@example.com"></div>
+          <div class="field"><label for="phone">Phone</label><input id="phone" placeholder="+92 300 1234567"></div>
+          <div class="field full"><label for="location">City / Address</label><input id="location" placeholder="Hyderabad, Pakistan"></div>
+          <div class="field full"><label for="website">LinkedIn / Portfolio (optional)</label><input id="website" placeholder="linkedin.com/in/yourname"></div>
+        </div>
+        <div class="section-title">Professional summary</div>
+        <div class="field"><label for="summary">About you</label><textarea id="summary" placeholder="Write 2–4 sentences about your experience, strengths and career goals."></textarea></div>
+        <div class="section-title">Work experience</div>
+        <div class="grid">
+          <div class="field"><label for="company">Company</label><input id="company" placeholder="Company name"></div>
+          <div class="field"><label for="position">Job title</label><input id="position" placeholder="Your role"></div>
+          <div class="field full"><label for="workDates">Dates</label><input id="workDates" placeholder="Jan 2023 – Present"></div>
+          <div class="field full"><label for="workDesc">Responsibilities / achievements</label><textarea id="workDesc" placeholder="Describe your work and achievements. Start each point on a new line."></textarea></div>
+        </div>
+        <div class="section-title">Education</div>
+        <div class="grid">
+          <div class="field full"><label for="school">Institute / University</label><input id="school" placeholder="University or college name"></div>
+          <div class="field"><label for="degree">Degree / Qualification</label><input id="degree" placeholder="e.g. BS Information Technology"></div>
+          <div class="field"><label for="eduDates">Year</label><input id="eduDates" placeholder="2022 – 2026"></div>
+        </div>
+        <div class="section-title">Skills & languages</div>
+        <div class="grid">
+          <div class="field full"><label for="skills">Skills (separate with commas)</label><textarea id="skills" placeholder="Communication, Microsoft Office, Teamwork, Photoshop"></textarea></div>
+          <div class="field full"><label for="languages">Languages</label><input id="languages" placeholder="English, Urdu, Sindhi"></div>
+        </div>
+        <div class="section-title">Optional details</div>
+        <div class="grid">
+          <div class="field full"><label for="projects">Projects / Certifications</label><textarea id="projects" placeholder="Project or certificate name — short description"></textarea></div>
+          <div class="field full"><label for="template">CV accent colour</label><select id="template"><option value="#5b4bdb">Royal purple</option><option value="#087f8c">Ocean teal</option><option value="#1764a0">Professional blue</option><option value="#23734d">Forest green</option><option value="#b45309">Warm amber</option></select></div>
+        </div>
+        <div class="form-actions"><button class="primary" id="downloadBtn">⬇ Download / Save as PDF</button><button class="ghost" id="resetBtn">Clear form</button></div>
+        <p class="hint">Tip: In the print window, choose “Save as PDF” as the destination to save your CV as a PDF file.</p>
+      </div>
+    </section>
+    <section class="panel preview-wrap">
+      <div class="preview-toolbar"><span>👁 Live CV preview</span><div class="preview-actions"><button class="ghost" id="htmlBtn">Download HTML</button><button class="primary" id="printBtn">Print / PDF</button></div></div>
+      <article class="resume" id="resume">
+        <div class="resume-top"><h1 id="outName">Your Name</h1><div class="role" id="outTitle">Your Professional Title</div><div class="contact" id="outContact"></div></div>
+        <section class="resume-section" id="summarySection"><h3>Professional Summary</h3><p id="outSummary" class="empty">Your professional summary will appear here.</p></section>
+        <section class="resume-section" id="experienceSection"><h3>Work Experience</h3><div id="outExperience" class="empty">Add your work experience to display it here.</div></section>
+        <section class="resume-section" id="educationSection"><h3>Education</h3><div id="outEducation" class="empty">Add your education details to display them here.</div></section>
+        <section class="resume-section" id="skillsSection"><h3>Key Skills</h3><div id="outSkills" class="skills"><span class="empty">Your skills will appear here.</span></div></section>
+        <section class="resume-section" id="languagesSection"><h3>Languages</h3><p id="outLanguages" class="empty">Add languages you speak.</p></section>
+        <section class="resume-section" id="projectsSection"><h3>Projects & Certifications</h3><p id="outProjects" class="empty">Add projects or certifications if you have them.</p></section>
+      </article>
+    </section>
+  </div>
+</main>
+<footer>CVCraft · Your information stays in this browser. This demo does not upload your personal details to a server.</footer>
+<script>
+const ids=['name','jobTitle','email','phone','location','website','summary','company','position','workDates','workDesc','school','degree','eduDates','skills','languages','projects','template'];
+const $=id=>document.getElementById(id);
+const val=id=>$(id).value.trim();
+function setText(id,text,placeholder){const el=$(id);el.textContent=text||placeholder;el.classList.toggle('empty',!text)}
+function update(){
+ const accent=val('template')||'#5b4bdb';document.documentElement.style.setProperty('--brand',accent);
+ $('outName').textContent=val('name')||'Your Name';$('outName').style.color=accent;
+ $('outTitle').textContent=val('jobTitle')||'Your Professional Title';$('outTitle').style.color=accent;
+ $('resume').querySelector('.resume-top').style.borderColor=accent;
+ const contacts=[val('email'),val('phone'),val('location'),val('website')].filter(Boolean);
+ $('outContact').replaceChildren();
+ contacts.forEach((t,i)=>{const s=document.createElement('span');s.textContent=t;$('outContact').appendChild(s);if(i<contacts.length-1){const sep=document.createElement('span');sep.textContent='•';sep.style.color=accent;$('outContact').appendChild(sep)}});
+ setText('outSummary',val('summary'),'Your professional summary will appear here.');
+ const exp=$('outExperience');exp.replaceChildren();
+ if(val('company')||val('position')||val('workDesc')){
+  const box=document.createElement('div');box.className='resume-item';
+  const head=document.createElement('div');head.className='resume-item-head';
+  const strong=document.createElement('strong');strong.textContent=val('position')||'Position';
+  const date=document.createElement('span');date.className='date';date.textContent=val('workDates');
+  head.append(strong,date);box.append(head);
+  if(val('company')){const sub=document.createElement('div');sub.className='sub';sub.textContent=val('company');sub.style.color=accent;box.append(sub)}
+  if(val('workDesc')){const p=document.createElement('p');p.textContent=val('workDesc');box.append(p)}
+  exp.append(box);exp.classList.remove('empty');
+ }else{exp.textContent='Add your work experience to display it here.';exp.className='empty'}
+ const edu=$('outEducation');edu.replaceChildren();
+ if(val('school')||val('degree')||val('eduDates')){
+  const box=document.createElement('div');box.className='resume-item';const head=document.createElement('div');head.className='resume-item-head';
+  const strong=document.createElement('strong');strong.textContent=val('degree')||'Qualification';const date=document.createElement('span');date.className='date';date.textContent=val('eduDates');head.append(strong,date);box.append(head);
+  if(val('school')){const sub=document.createElement('div');sub.className='sub';sub.textContent=val('school');sub.style.color=accent;box.append(sub)}edu.append(box);edu.classList.remove('empty');
+ }else{edu.textContent='Add your education details to display them here.';edu.className='empty'}
+ const skills=$('outSkills');skills.replaceChildren();const list=val('skills').split(',').map(x=>x.trim()).filter(Boolean);
+ if(list.length){list.forEach(s=>{const el=document.createElement('span');el.className='skill';el.textContent=s;el.style.color=accent;skills.append(el)})}else{const el=document.createElement('span');el.className='empty';el.textContent='Your skills will appear here.';skills.append(el)}
+ setText('outLanguages',val('languages'),'Add languages you speak.');
+ setText('outProjects',val('projects'),'Add projects or certifications if you have them.');
+}
+ids.forEach(id=>$(id).addEventListener('input',update));
+function printCV(){if(!val('name')){if(!confirm('You have not entered your name yet. Print the CV anyway?')){$('name').focus();return}}window.print()}
+$('printBtn').addEventListener('click',printCV);$('downloadBtn').addEventListener('click',printCV);$('topDownload').addEventListener('click',printCV);
+$('resetBtn').addEventListener('click',()=>{if(confirm('Clear all CV details?')){ids.forEach(id=>$(id).value='');update();window.scrollTo({top:0,behavior:'smooth'})}});
+$('sampleBtn').addEventListener('click',()=>{
+ const sample={name:'Ayesha Khan',jobTitle:'Junior Graphic Designer',email:'ayesha.khan@example.com',phone:'+92 300 1234567',location:'Hyderabad, Pakistan',website:'linkedin.com/in/ayeshakhan',summary:'Creative and detail-oriented graphic designer with a strong interest in visual storytelling, branding and social media design. Enjoys collaborating with teams to turn ideas into clear, engaging designs.',company:'Creative Studio',position:'Graphic Design Intern',workDates:'Jun 2025 – Aug 2025',workDesc:'Designed social media graphics and promotional posters.\\nHelped maintain consistent brand colours and typography.\\nPrepared design files for digital publishing.',school:'University / College Name',degree:'BS Information Technology',eduDates:'2022 – 2026',skills:'Adobe Photoshop, Adobe Illustrator, Branding, Social Media Design, Communication, Teamwork',languages:'English, Urdu, Sindhi',projects:'Social Media Campaign — Created a coordinated set of promotional designs for a student event.\\nGraphic Design Certificate — Online training in design fundamentals.',template:'#5b4bdb'};
+ Object.entries(sample).forEach(([k,v])=>$(k).value=v.replaceAll('\\n','\n'));update();
+});
+$('htmlBtn').addEventListener('click',()=>{
+ update();
+ const clone=$('resume').cloneNode(true);
+ const css=`body{font-family:Arial,sans-serif;margin:0;padding:32px;color:#20283a}.resume{max-width:800px;margin:auto;padding:28px}.resume-top{border-bottom:3px solid ${val('template')};padding-bottom:18px}.resume h1{font-size:30px;margin:0 0 6px}.role{font-size:14px;font-weight:bold;margin-bottom:12px}.contact{font-size:11px;color:#60697a;display:flex;flex-wrap:wrap;gap:8px}.resume-section{margin:20px 0}.resume-section h3{font-size:11px;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid #ddd;padding-bottom:7px}.resume-section p{font-size:12px;line-height:1.65;white-space:pre-line}.resume-item{margin-bottom:13px}.resume-item-head{display:flex;justify-content:space-between;gap:10px}.resume-item strong{font-size:12px}.date{font-size:10px;color:#6e7482}.sub{font-size:11px;margin:3px 0 5px}.skills{display:flex;flex-wrap:wrap;gap:6px}.skill{font-size:10px;background:#f0efff;padding:5px 8px;border-radius:5px}`;
+ const doc='<!doctype html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>'+escapeHtml(val('name')||'My CV')+'</title><style>'+css+'@media print{@page{size:A4;margin:12mm}body{padding:0}}</style></head><body>'+clone.outerHTML+'</body></html>';
+ const blob=new Blob([doc],{type:'text/html;charset=utf-8'});const url=URL.createObjectURL(blob);const a=document.createElement('a');a.href=url;a.download=(val('name')||'my-cv').toLowerCase().replace(/[^a-z0-9]+/g,'-')+'-cv.html';document.body.appendChild(a);a.click();a.remove();URL.revokeObjectURL(url);
+});
+function escapeHtml(s){return s.replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+update();
+</script>
+</body>
+</html>
